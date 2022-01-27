@@ -1,0 +1,19 @@
+#container {
+    display: grid;
+    grid-template-columns: repeat(16, auto);
+    column-gap: 0px;
+    width: 50vw;
+    height: 50vw;
+    border: solid black 1px;
+}
+
+.square {
+    border: solid black;
+    border-width: 1px;
+    width: auto;
+    height: auto;
+}
+
+.square:hover {
+    background-color: black;
+}
