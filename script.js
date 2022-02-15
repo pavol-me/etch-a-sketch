@@ -1,80 +1,25 @@
-const container = document.querySelector('#container');
-
+const container = document.getElementById('container');
+// the only way I've been able to use user input for grid generation was through url attributes
 const urlParams = new URLSearchParams(window.location.search);
 const urlSize = urlParams.get('size');
-
-let size = returnSize();
-
-window.onload = makeGrid(size);
-
-const resetButton = document.getElementById('reset');
-resetButton.addEventListener('click', clearGrid);
-
+const size = returnSize();
 const makeButton = document.getElementById('make');
-makeButton.addEventListener('click', changeURL);
-
-const squares = document.querySelectorAll('div.square');
-squares.forEach(squares => squares.addEventListener('mouseenter', changeBackgroundToBlackGradually, {
-    capture: false,
-    once: false
-}));
-
-const userValue = document.getElementById('size');
-userValue.value = size;
-
-function returnMode() {
-    let ele = document.getElementsByName('mode')
-    for (i = 0; i < ele.length; i++) {
-        if (ele[i].checked) {
-            return ele[i].value;
-        }
-    }
-}
-
-function returnSize() {
-    if (window.location.search === "") {
-        return (16);
-    } else {
-        return urlSize;
-    }
-}
-
-function clearGrid() {
-    squares.forEach(squares => squares.classList.remove('filled'));
-    squares.forEach(squares => squares.style.removeProperty('background-color'))
-}
-
-function changeURL() {
-    let size = document.getElementById('size').value;
-    window.location.replace('http://localhost:5500/?size=' + size);
-}
-
-function changeBackgroundToBlack(e) {
-    this.classList.add('filledBlack');
-}
-
-function changeBackgroundToRandomColor(e) {
-    let color = randomRGBA();
-    this.style.backgroundColor = color;
-}
+const resetButton = document.getElementById('reset');
+const blackButton = document.getElementById('black');
+const rainbowButton = document.getElementById('rainbow');
+const eraseButton = document.getElementById('erase');
+let color = 'black';
 
 function randomRGBA() {
     let o = Math.round, r = Math.random, s = 255;
     return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
 }
 
-function changeBackgroundToBlackGradually(e) {
-    let currentAlpha = Number(this.style.backgroundColor.slice(-4, -1));
-    if (this.style.backgroundColor.match(/rgba/)) {
-        let currentOpacity = Number(this.style.backgroundColor.slice(-4, -1));
-        if (currentOpacity <= 0.9) {
-            this.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity + 0.1})`;
-            this.classList.add('gray');
-        }
-    } else if (this.classList == 'gray' && this.style.backgroundColor == 'rgb(0, 0, 0)') {
-        return;
+function returnSize() {
+    if (window.location.search === "") {
+        return 16;
     } else {
-        this.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';  
+        return urlSize;
     }
 }
 
@@ -82,35 +27,60 @@ function makeGrid(size) {
     if (size > 100) {
         return;
     } else {
-        editCSS(size);
-        editHTML(size);
+// this makes grid template in container
+        container.setAttribute('style', 'grid-template-columns: repeat(' + size + ', auto)');
+// this generates the "pixels" of the grid
+        let n = Math.pow(size, 2);
+        for (i = 0; i < n; i++) {
+            const pixel = document.createElement('div');
+            pixel.classList.add('pixel');
+            pixel.setAttribute('style', 'background-color: white')
+            container.appendChild(pixel);
+        }
+    }
+    const pixels = document.querySelectorAll('.pixel')
+    pixels.forEach(pixels => pixels.addEventListener('mouseenter', changeBackground, {
+        capture: true,
+        once: false
+    }));
+    document.getElementById('inputSize').value = size;
+}
+
+function changeBackground() {
+    switch (color) {
+        case 'black':
+            this.style.backgroundColor = '#000000';
+            break;
+        case 'rainbow':
+            this.style.backgroundColor = randomRGBA();
+            break;
+        case 'erase':
+            this.style.backgroundColor = 'white';
+            break;    
     }
 }
 
-function editCSS(size) {
-    container.setAttribute('style', 'grid-template-columns: repeat(' + size + ', auto');
+//this function takes size from the input and puts it into URL attribute
+function changeURL() {
+    let inputSize = document.getElementById('inputSize').value;
+    window.location.replace('http://localhost:5500/?size=' + inputSize);
 }
 
-function editHTML(size) {
-    let n = Math.pow(size, 2);
-    for (let i = 0; i < n; i++) {
-        const square = document.createElement('div');
-        square.classList.add('square');
-        container.appendChild(square);
+function resetGrid() {
+    const pixels = document.querySelectorAll('.pixel')
+    pixels.forEach(pixels => pixels.style.removeProperty("background-color"));
+}
+
+window.onload = makeGrid(size);
+makeButton.addEventListener('click', changeURL);
+resetButton.addEventListener('click', resetGrid);
+blackButton.addEventListener('click', () => color = 'black');
+rainbowButton.addEventListener('click', () => color = 'rainbow');
+eraseButton.addEventListener('click', () => color = 'erase');
+// make new grid when hitting enter while in size input
+document.getElementById('inputSize').addEventListener('keyup', function(e) {
+    e.preventDefault();
+    if (e.keyCode === 13) {
+        changeURL();
     }
-}
-
-// THIS MAY BE IMPLEMENTED LATER - radio buttons to change mode from hover to click
-// 
-// function chooseMode() {
-//     const radioButtons = document.getElementsByName('mode');
-//     for (i = 0; i < radioButtons.length; i++) {
-//         if (radioButtons[i].checked) {
-//             squares.forEach(squares => squares.addEventListener(radioButtons[i].value, changeBackground, {
-//                 capture: false,
-//                 once: false
-//             }));
-//         }
-//     }
-// }
-// 
+});

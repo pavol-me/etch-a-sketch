@@ -4,26 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch a Sketch</title>
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="reset">RESET GRID</button>
-    <button id="make">MAKE GRID</button>
-    <div>
-        <label for="size">How many squares in one row/column? (1-100)</label>
-        <input type="number" id="size" name="size" min="1" max="100" value="16">
+    <h1>ETCH-A-SKETCH</h1>    
+    <div id="gridButtons">
+        <button id="make">NEW GRID</button>
+        <button id ="reset">RESET GRID</button>
     </div>
-<!-- radio buttons for chooseMode function
-    <div>
-        <input type="radio" id="hoverMode" name="mode" value="mouseout" checked>
-        <label for="hoverMode">Hover Mode</label>
+    <div id="colorButtons">
+        <button id="black">BLACK</button>
+        <button id="rainbow">RAINBOW</button>
+        <button id="erase">ERASER</button>
     </div>
     <div>
-        <input type="radio" id="clickMode" name="mode" value="click">
-        <label for="clickMode">Click Mode</label>
-    </div>  -->
+        <label for="inputSize">Size of the grid (1-100/one side)</label>
+        <input type="number" id="inputSize" name='inputSize' min="1" max="100" value="16">
+    </div>
     <div id="container"></div>
 </body>
 </html>

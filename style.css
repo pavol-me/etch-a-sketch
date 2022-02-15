@@ -1,18 +1,15 @@
 #container {
-    display: grid;
-    column-gap: 0px;
     width: 45vw;
     height: 45vw;
-    border: solid black 1px;
+    display: grid;
+    column-gap: 0px;
+    border: black solid 1px;
 }
 
-.square {
-    border: solid black;
-    border-width: 1px;
+.pixel {
     width: auto;
     height: auto;
+    border: black solid 1px;
+    border-width: 1px;
 }
 
-.filledBlack {
-    background-color: black;
-}
