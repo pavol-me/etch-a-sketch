@@ -68,7 +68,7 @@ function changeURL() {
 
 function resetGrid() {
     const pixels = document.querySelectorAll('.pixel')
-    pixels.forEach(pixels => pixels.style.removeProperty("background-color"));
+    pixels.forEach(pixels => pixels.style.backgroundColor = ('White'));
 }
 
 window.onload = makeGrid(size);

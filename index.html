@@ -6,23 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
 </head>
 <body>
     <h1>ETCH-A-SKETCH</h1>    
-    <div id="gridButtons">
-        <button id="make">NEW GRID</button>
-        <button id ="reset">RESET GRID</button>
+    <div id="topRow">
+        <div id="gridButtons">
+            <button id="make">NEW GRID</button>
+            <button id ="reset">RESET GRID</button>
+        </div>
+        <div id="sizeInput">
+            <label for="inputSize">Size (1-100/one side)</label>
+            <input type="number" id="inputSize" name='inputSize' min="1" max="100" value="16">
+        </div>
     </div>
-    <div id="colorButtons">
-        <button id="black">BLACK</button>
-        <button id="rainbow">RAINBOW</button>
-        <button id="erase">ERASER</button>
+    <div id="colorButtonsGrid">
+        <div id="colorButtons">
+            <button id="black">BLACK</button>
+            <button id="rainbow">RAINBOW</button>
+            <button id="erase">ERASER</button>
+        </div>
+        <div id="container"></div>
     </div>
-    <div>
-        <label for="inputSize">Size of the grid (1-100/one side)</label>
-        <input type="number" id="inputSize" name='inputSize' min="1" max="100" value="16">
-    </div>
-    <div id="container"></div>
+    <footer id="footer">made by <a href="https://pavol.me">Pavol Santoris</a> <a href="https://github.com/pavol-me"><img id='githubLogo' src="assets/GitHub-Mark-32px.png" alt="GitHub logo"></a></footer>
 </body>
 </html>
